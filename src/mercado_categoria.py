@@ -11,11 +11,11 @@ def criar_categoria():
     pass
 
 
-def editar_categorias():
+def listar_categorias():
     pass
 
 
-def listar_categorias():
+def editar_categorias():
     pass
 
 
