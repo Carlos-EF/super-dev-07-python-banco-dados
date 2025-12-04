@@ -1,10 +1,10 @@
 from mysql.connector import connect
 
 def executar_biblioteca():
-    cadastrar_livro()
+    # cadastrar_livro()
     # editar_livro()
     # apagar_livro()
-    # listar_livros()
+    listar_livros()
 
 
 def cadastrar_livro():
@@ -44,6 +44,8 @@ def editar_livro():
 
     titulo = input("Digite o novo título do livro: ")
 
+    quantidade_paginas = input("Digite a nova quantidade de páginas do livro: ")
+
     conexao = connect(
         password="admin",
         user="root",
@@ -54,9 +56,9 @@ def editar_livro():
 
     cursor = conexao.cursor()
 
-    sql = "UPDATE livros SET titulo= %s WHERE id = %s"
+    sql = "UPDATE livros SET titulo= %s, quantidade_paginas= %s WHERE id = %s"
 
-    dados = (titulo, id)
+    dados = (titulo, quantidade_paginas, id)
 
     cursor.execute(sql, dados)
 
@@ -116,7 +118,7 @@ def listar_livros():
 
     cursor = conexao.cursor()
 
-    sql = "SELECT id, titulo FROM livros"
+    sql = "SELECT id, titulo, quantidade_paginas FROM livros"
 
     cursor.execute(sql)
 
@@ -131,4 +133,6 @@ def listar_livros():
 
         titulo = registro[1]
 
-        print("ID:", id, "\tTITULO:", titulo)
+        quantidade_paginas = registro[2]
+
+        print("ID:", id, "\tTITULO:", titulo, "\tPÁGINAS:", quantidade_paginas)
