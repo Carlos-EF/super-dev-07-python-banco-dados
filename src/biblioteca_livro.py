@@ -2,15 +2,23 @@ from mysql.connector import connect
 
 def executar_biblioteca():
     # cadastrar_livro()
-    editar_livro()
+    # editar_livro()
     # apagar_livro()
-    # listar_livros()
+    listar_livros()
 
 
 def cadastrar_livro():
     titulo = input("Digite o título do livro que deseja cadastrar: ")
 
     quantidade_paginas = input("Digite a quantidade de páginas do livro: ")
+
+    autor = input("Digite o nome do autor do livro: ")
+
+    preco = input("Digite o preço do livro: ")
+
+    isbn = input("Digite o ISBN do livro: ")
+
+    descricao = input("Digite a descrição do livro: ")
 
     conexao = connect(
         user="root",
@@ -22,9 +30,9 @@ def cadastrar_livro():
 
     cursor = conexao.cursor()
 
-    sql = "INSERT INTO livros (titulo, quantidade_paginas) VALUE (%s, %s)"
+    sql = "INSERT INTO livros (titulo, quantidade_paginas, autor, preco, isbn, descricao) VALUE (%s, %s, %s, %s, %s, %s)"
 
-    dados = (titulo, quantidade_paginas)
+    dados = (titulo, quantidade_paginas, autor, preco, isbn, descricao)
 
     cursor.execute(sql, dados)
 
@@ -123,7 +131,7 @@ def listar_livros():
 
     cursor = conexao.cursor()
 
-    sql = "SELECT id, titulo, quantidade_paginas FROM livros"
+    sql = "SELECT id, titulo, quantidade_paginas, autor, preco, isbn FROM livros"
 
     cursor.execute(sql)
 
@@ -140,4 +148,10 @@ def listar_livros():
 
         quantidade_paginas = registro[2]
 
-        print("ID:", id, "\tTITULO:", titulo, "\tPÁGINAS:", quantidade_paginas)
+        autor = registro[3]
+
+        preco = registro[4]
+
+        isbn = registro[5]
+
+        print("ID:", id, "\tTITULO:", titulo, "\tPÁGINAS:", quantidade_paginas, "\tAUTOR:", autor)
