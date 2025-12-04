@@ -1,14 +1,16 @@
 from mysql.connector import connect
 
 def executar_biblioteca():
-    # cadastrar_livro()
-    editar_livro()
+    cadastrar_livro()
+    # editar_livro()
     # apagar_livro()
     # listar_livros()
 
 
 def cadastrar_livro():
     titulo = input("Digite o título do livro que deseja cadastrar: ")
+
+    quantidade_paginas = input("Digite a quantidade de páginas do livro: ")
 
     conexao = connect(
         user="root",
@@ -20,9 +22,9 @@ def cadastrar_livro():
 
     cursor = conexao.cursor()
 
-    sql = "INSERT INTO livros (titulo) VALUE (%s)"
+    sql = "INSERT INTO livros (titulo, quantidade_paginas) VALUE (%s, %s)"
 
-    dados = (titulo,)
+    dados = (titulo, quantidade_paginas)
 
     cursor.execute(sql, dados)
 
