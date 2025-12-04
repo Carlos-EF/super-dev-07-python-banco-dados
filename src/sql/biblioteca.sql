@@ -9,9 +9,7 @@ CREATE TABLE livros(
 
 SELECT id, titulo FROM livros;
 
-ALTER TABLE livros ADD COLUMN quantidade_paginas DOUBLE;
-
-ALTER TABLE livros MODIFY COLUMN quantidade_paginas INT;
+ALTER TABLE livros ADD COLUMN quantidade_paginas INT;
 
 SELECT id, titulo, quantidade_paginas FROM livros;
 
