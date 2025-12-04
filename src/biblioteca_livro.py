@@ -2,9 +2,9 @@ from mysql.connector import connect
 
 def executar_biblioteca():
     # cadastrar_livro()
-    # editar_livro()
+    editar_livro()
     # apagar_livro()
-    listar_livros()
+    # listar_livros()
 
 
 def cadastrar_livro():
@@ -68,7 +68,12 @@ def editar_livro():
 
     conexao.close()
 
-    print("Livro alterado com sucesso!")
+    linhas_alteradas = cursor.rowcount
+
+    if linhas_alteradas == 0:
+        print("Ocorreu um erro ao tentar alterar o livro.")
+    else:
+        print("Livro alterado com sucesso!")
 
 
 def apagar_livro():
