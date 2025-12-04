@@ -20,4 +20,4 @@ ALTER TABLE livros ADD COLUMN preco DOUBLE;
 ALTER TABLE livros ADD COLUMN isbn VARCHAR(100);
 ALTER TABLE livros ADD COLUMN descricao TEXT;
 
-SELECT id, titulo, quantidade_paginas, autor, isbn,
+SELECT id, titulo, quantidade_paginas, autor, preco, isbn, descricao FROM livros;
