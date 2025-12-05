@@ -2,9 +2,11 @@ from mysql.connector import connect
 
 def executar_biblioteca():
     # cadastrar_livro()
-    editar_livro()
+    # editar_livro()
     # apagar_livro()
     # listar_livros()
+
+    listar_mangas()
 
 
 def cadastrar_livro():
@@ -165,3 +167,41 @@ def listar_livros():
         descricao = registro[6]
 
         print("ID:", id, "\tTITULO:", titulo, "\tPÁGINAS:", quantidade_paginas, "\tAUTOR:", autor, "\tPRECO:", preco, "\tISBN:", isbn, "\tDESCRIÇÂO:", descricao)
+
+
+def listar_mangas():
+    conexao = connect(
+        host="127.0.0.1",
+        port="3306",
+        user="root",
+        password="admin",
+        database="biblioteca",
+    )
+
+    cursor = conexao.cursor()
+
+    sql = "SELECT id, nome, volume, autor, data_lancamento FROM mangas"
+    
+    cursor.execute(sql)
+
+    registros = cursor.fetchall()
+
+    conexao.close()
+
+    cursor.close()
+
+
+    for registro in registros:
+        id = registro[0]
+
+        nome = registro[1]
+
+        volume = registro[2]
+
+        autor = registro[3]
+
+        data_lancamento = registro[4]
+
+        print("ID:", id, "\tNOME:", nome, "\tVOLUME:", volume, "\tAUTOR:", autor, "\tDATA DE LANÇAMENTO:", data_lancamento)
+
+
