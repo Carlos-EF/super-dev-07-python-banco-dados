@@ -8,7 +8,8 @@ def executar_biblioteca():
 
     # listar_mangas()
     # editar_manga()
-    apagar_manga()
+    # apagar_manga()
+    cadastrar_manga()
 
 
 def cadastrar_livro():
@@ -290,3 +291,38 @@ def apagar_manga():
         print("Ocorreu um erro ao tentar apagar o mangá.")
     else:
         print("Mangá apagado com sucesso!")
+
+
+def cadastrar_manga():
+    nome = input("Digite o nome do mangá: ")
+
+    volume = input("Digite o volume do mangá: ")
+
+    autor = input("Digite o autor do mangá: ")
+
+    data_lancamento = input("Digite a data de lançamento do volume: ")
+
+    conexao = connect(
+        port="3306",
+        user="root",
+        database="biblioteca",
+        host="127.0.0.1",
+        password="admin"
+    )
+
+    cursor = conexao.cursor()
+
+    sql = "INSERT INTO mangas (nome, volume, autor, data_lancamento) VALUES (%s, %s, %s, %s)"
+
+    dados = (nome, volume, autor, data_lancamento)
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    cursor.close()
+
+    conexao.close()
+
+
+    print(f"Mangá '{nome}' cadastrado com sucesso!")
