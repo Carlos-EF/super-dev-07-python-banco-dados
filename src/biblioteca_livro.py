@@ -6,7 +6,8 @@ def executar_biblioteca():
     # apagar_livro()
     # listar_livros()
 
-    listar_mangas()
+    # listar_mangas()
+    editar_manga()
 
 
 def cadastrar_livro():
@@ -205,3 +206,52 @@ def listar_mangas():
         print("ID:", id, "\tNOME:", nome, "\tVOLUME:", volume, "\tAUTOR:", autor, "\tDATA DE LANÇAMENTO:", data_lancamento)
 
 
+
+# 14.   MySQL Criar uma tabela de mangas com as colunas: id, nome, volume, autor, data de lançamento
+# 15.   MySQL Criar registro na tabela de mangas do Naruto Volume 52
+# 16.   MySQL Criar registro na tabela de mangas do Dragon Ball Volume 20
+# 17.   Criar a função de listar
+# 18.   Criar a função de editar
+# 18.   Criar a função de apagar
+# 19.   Criar a função de cadastrar  
+
+def editar_manga():
+    listar_mangas()
+
+    id = input("Digite o ID do mangá que deseja editar: ")
+
+    nome = input("Digite o nome do mangá: ")
+
+    volume = input("Digite o volume: ")
+
+    autor = input("Digite o autor do manga: ")
+
+    data_lancamento = input("Digite a data de lançamento do volume: ")
+
+    conexao = connect(
+        user="root",
+        password="admin",
+        host="127.0.0.1",
+        port="3306",
+        database="biblioteca",
+    )
+
+    dados = (nome, volume, autor, data_lancamento, id)
+
+    sql = "UPDATE mangas SET nome=%s, volume= %s, autor= %s, data_lancamento= %s WHERE id= %s"
+
+    cursor = conexao.cursor()
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    cursor.close()
+
+    conexao.close()
+
+    linhas_modificadas = cursor.rowcount
+    if linhas_modificadas == 0:
+        print("Ocorreu um erro ao tentar editar o mangá.")
+    else:
+        print("Mangá alterado com sucesso!")
