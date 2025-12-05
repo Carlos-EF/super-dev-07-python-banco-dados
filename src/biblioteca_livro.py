@@ -7,7 +7,8 @@ def executar_biblioteca():
     # listar_livros()
 
     # listar_mangas()
-    editar_manga()
+    # editar_manga()
+    apagar_manga()
 
 
 def cadastrar_livro():
@@ -255,3 +256,37 @@ def editar_manga():
         print("Ocorreu um erro ao tentar editar o mangá.")
     else:
         print("Mangá alterado com sucesso!")
+
+
+def apagar_manga():
+    listar_mangas()
+
+    id = input("Digite o ID do mangá que deseja apagar: ")
+
+    conexao = connect(
+        password="admin",
+        user="root",
+        database="biblioteca",
+        port="3306",
+        host="127.0.0.1"
+    )
+
+    sql = "DELETE FROM mangas WHERE id = %s"
+
+    dados = (id, )
+
+    cursor = conexao.cursor()
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    cursor.close()
+
+    conexao.close()
+
+    linhas_apagadas = cursor.rowcount
+    if linhas_apagadas == 0:
+        print("Ocorreu um erro ao tentar apagar o mangá.")
+    else:
+        print("Mangá apagado com sucesso!")
