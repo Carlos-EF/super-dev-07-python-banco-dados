@@ -2,7 +2,9 @@ from mysql.connector import connect
 
 
 def executar_biblioteca_revista():
-    listar_revistas()
+    # listar_revistas()
+
+    cadastrar_revista()
 
 
 def listar_revistas():
@@ -38,3 +40,41 @@ def listar_revistas():
         editora = registro[4]
 
         print("ID:", id, "\tTÍTULO:", titulo, "\tEDIÇÂO:", edicao, "\tDATA DE PUBLICAÇÂO:", data_publicacao, "\tEDITORA:", editora)
+
+
+def cadastrar_revista():
+    listar_revistas()
+
+    titulo = input("Digite o título da revista: ")
+
+    edicao = input("Digite a edição da revista: ")
+
+    data_publicacao = input("Digite a data de publicação: ")
+
+    editora = input("Digite a editora da revista: ")
+
+    conexao = connect(
+        port="3306",
+        host="127.0.0.1",
+        password="admin",
+        user="root",
+        database="biblioteca",
+    )
+
+    cursor = conexao.cursor()
+
+    sql = "INSERT INTO revistas (titulo, edicao, data_publicacao, editora) VALUES (%s, %s, %s, %s)"
+
+    dados = (titulo, edicao, data_publicacao, editora)
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    cursor.close()
+
+    conexao.close()
+
+    print("Revista modificada com sucesso!")
+
+
