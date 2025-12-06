@@ -7,7 +7,9 @@ def executar_biblioteca_revista():
 
     # cadastrar_revista()
 
-    apagar_revista()
+    # apagar_revista()
+
+    editar_revista()
 
 
 def listar_revistas():
@@ -52,3 +54,24 @@ def apagar_revista():
         print("Ocorreu um erro ao tentar apagar a revista.")
     else:
         print("Revista apagada com sucesso!")
+
+
+def editar_revista():
+    listar_revistas()
+    id = input("Digite o ID da revista que deseja alterar: ")
+
+    titulo = input("Digite o título da revista: ")
+
+    edicao = input("Digite a edição da revista: ")
+
+    data_publicacao = input("Digite a data de publicação: ")
+
+    editora = input("Digite a editora da revista: ")
+
+    linhas_alteradas = biblioteca_revista_repositorio.editar(id, titulo, edicao, data_publicacao, editora)
+
+    if linhas_alteradas == 0:
+        print("Ocorreu um erro ao tentar alterar a revista.")
+    else:
+        print("Revista alterada com sucesso!")
+

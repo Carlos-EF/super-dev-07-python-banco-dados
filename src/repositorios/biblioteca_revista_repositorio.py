@@ -71,3 +71,25 @@ def apagar(id: int) -> int:
     conexao.close()
 
     return linhas_apagadas
+
+
+def editar(id: int,titulo: str, edicao: int, data_publicacao: date, editora: str) -> int:
+    conexao = conectar_biblioteca()
+
+    cursor = conexao.cursor()
+
+    linhas_alteradas = cursor.rowcount
+
+    sql = "UPDATE revistas SET titulo= %s, edicao= %s, data_publicacao= %s, editora= %s WHERE id= %s"
+
+    dados = (titulo, edicao, data_publicacao, editora, id)
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    cursor.close()
+
+    conexao.close()
+
+    return linhas_alteradas
