@@ -49,3 +49,25 @@ def cadastrar(titulo: str, edicao: int, data_publicacao: date, editora: str):
     cursor.close()
 
     conexao.close()
+
+
+def apagar(id: int) -> int:
+    conexao = conectar_biblioteca()
+
+    sql = "DELETE FROM revistas WHERE id= %s"
+
+    dados = (id, )
+
+    cursor = conexao.cursor()
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    linhas_apagadas = cursor.rowcount
+
+    cursor.close()
+
+    conexao.close()
+
+    return linhas_apagadas

@@ -45,3 +45,6 @@ CREATE TABLE revistas(
 
 INSERT INTO revistas (titulo, edicao, data_publicacao, editora) VALUES ("VEJA", 1, "1968-09-11", "Editora Abril"),
 ("Superinteressante", 481, "2025-11-01", "Editora Abril");
+
+-- INSERT INTO de teste para editar revista
+INSERT INTO revistas (titulo, edicao, data_publicacao, editora) VALUE ("TEste", 100, "2025-12-05", "Minha Editora");	

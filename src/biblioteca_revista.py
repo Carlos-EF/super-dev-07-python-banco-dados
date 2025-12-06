@@ -3,9 +3,11 @@ from src.repositorios import biblioteca_revista_repositorio
 
 
 def executar_biblioteca_revista():
-    listar_revistas()
+    # listar_revistas()
 
     # cadastrar_revista()
+
+    apagar_revista()
 
 
 def listar_revistas():
@@ -44,29 +46,7 @@ def apagar_revista():
 
     id = input("Digite o ID da revista que deseja apagar: ")
 
-    conexao = connect(
-        user="root",
-        password="admin",
-        port="3306",
-        host="127.0.0.1",
-        database="biblioteca"
-    )
-
-    sql = "DELETE FROM revistas WHERE id= %s"
-
-    dados = (id, )
-
-    cursor = conexao.cursor()
-
-    cursor.execute(sql, dados)
-
-    conexao.commit()
-
-    linhas_apagadas = cursor.rowcount
-
-    cursor.close()
-
-    conexao.close()
+    linhas_apagadas = biblioteca_revista_repositorio.apagar(id)
 
     if linhas_apagadas == 0:
         print("Ocorreu um erro ao tentar apagar a revista.")
