@@ -9,6 +9,6 @@ if __name__ == "__main__":
 
     # executar_biblioteca_livros()
 
-    executar_biblioteca_mangas()
+    # executar_biblioteca_mangas()
     
-    # executar_biblioteca_revista()
+    executar_biblioteca_revista()

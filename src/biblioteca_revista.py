@@ -1,43 +1,26 @@
 from mysql.connector import connect
+from src.repositorios import biblioteca_revista_repositorio
 
 
 def executar_biblioteca_revista():
-    # listar_revistas()
+    listar_revistas()
 
-    cadastrar_revista()
+    # cadastrar_revista()
 
 
 def listar_revistas():
-    conexao = connect(
-        user="root",
-        password="admin",
-        database="biblioteca",
-        port="3306",
-        host="127.0.0.1"
-    )
+    revistas = biblioteca_revista_repositorio.obter_todos()
 
-    cursor = conexao.cursor()
+    for revista in revistas:
+        id = revista["id"]
 
-    sql = "SELECT id, titulo, edicao, data_publicacao, editora FROM revistas"
-
-    cursor.execute(sql)
-
-    registros = cursor.fetchall()
-
-    conexao.close()
-
-    cursor.close()
-
-    for registro in registros:
-        id = registro[0]
-
-        titulo = registro[1]
+        titulo = revista["titulo"]
         
-        edicao = registro[2]
+        edicao = revista["edicao"]
 
-        data_publicacao = registro[3]
+        data_publicacao = revista["data_publicacao"]
 
-        editora = registro[4]
+        editora = revista["editora"]
 
         print("ID:", id, "\tTÍTULO:", titulo, "\tEDIÇÂO:", edicao, "\tDATA DE PUBLICAÇÂO:", data_publicacao, "\tEDITORA:", editora)
 
@@ -110,4 +93,4 @@ def apagar_revista():
     if linhas_apagadas == 0:
         print("Ocorreu um erro ao tentar apagar a revista.")
     else:
-        print("Ocorreu um erro ao tentar apagar a revista.")
+        print("Revista apagada com sucesso!")
