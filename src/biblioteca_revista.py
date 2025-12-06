@@ -26,8 +26,6 @@ def listar_revistas():
 
 
 def cadastrar_revista():
-    listar_revistas()
-
     titulo = input("Digite o título da revista: ")
 
     edicao = input("Digite a edição da revista: ")
@@ -36,29 +34,9 @@ def cadastrar_revista():
 
     editora = input("Digite a editora da revista: ")
 
-    conexao = connect(
-        port="3306",
-        host="127.0.0.1",
-        password="admin",
-        user="root",
-        database="biblioteca",
-    )
+    biblioteca_revista_repositorio.cadastrar(titulo, edicao, data_publicacao, editora)
 
-    cursor = conexao.cursor()
-
-    sql = "INSERT INTO revistas (titulo, edicao, data_publicacao, editora) VALUES (%s, %s, %s, %s)"
-
-    dados = (titulo, edicao, data_publicacao, editora)
-
-    cursor.execute(sql, dados)
-
-    conexao.commit()
-
-    cursor.close()
-
-    conexao.close()
-
-    print("Revista modificada com sucesso!")
+    print("Revista cadastrada com sucesso com sucesso!")
 
 
 def apagar_revista():

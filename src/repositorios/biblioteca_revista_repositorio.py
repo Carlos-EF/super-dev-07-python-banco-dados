@@ -1,4 +1,5 @@
 from src.banco_dados import conectar_biblioteca
+from datetime import date
 
 
 def obter_todos():
@@ -17,7 +18,7 @@ def obter_todos():
     cursor.close()
 
     revistas = []
-    
+
     for registro in registros:
         revista = {
             "id": registro[0],
@@ -30,3 +31,21 @@ def obter_todos():
         revistas.append(revista)
 
     return revistas
+
+
+def cadastrar(titulo: str, edicao: int, data_publicacao: date, editora: str):
+    conexao = conectar_biblioteca()
+
+    cursor = conexao.cursor()
+
+    sql = "INSERT INTO revistas (titulo, edicao, data_publicacao, editora) VALUES (%s, %s, %s, %s)"
+
+    dados = (titulo, edicao, data_publicacao, editora)
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    cursor.close()
+
+    conexao.close()
