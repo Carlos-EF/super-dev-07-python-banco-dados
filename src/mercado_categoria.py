@@ -1,4 +1,5 @@
-from mysql.connector import connect
+from src.banco_dados import conectar
+from src.repositorios import mercado_categoria_repositorio
 
 def executar():
     # criar_categoria()
@@ -12,57 +13,22 @@ def executar():
 def criar_categoria():
     nome = input("Digite o nome da nova categoria: ")
 
-    print("Abrindo conexão com banco de dados")
-
-    # Abrir a conexão com o banco de dados
-    conexao = connect(
-        host="127.0.0.1",
-        port="3306",
-        user="root",
-        password="admin",
-        database="mercado",
-    )
-    # Criando um cursor para poder executar comandos no BD
-    cursor = conexao.cursor()
-
-    # Definir qual comando será executado
-    sql = "INSERT INTO categorias (nome) VALUES (%s)"
-    dados = (nome,)
-
-    cursor.execute(sql, dados)
-
-    # Confirmar o comando (concretizar o comando de insert)
-    conexao.commit()
-
-    # Fechar a conexão com o banco de dados do cursor
-    cursor.close()
+    mercado_categoria_repositorio.cadastrar(nome)
 
     print("Categoria criada com sucesso")
 
 
 def listar_categorias():
-    conexao = connect(
-        user="root",
-        password="admin",
-        database="mercado",
-        host="127.0.0.1",
-        port="3306",
-    )
+    categorias = mercado_categoria_repositorio.obter_todos()
 
-    cursor = conexao.cursor()
+    # [] => Lista (é possível alterar)
+    # {} => Dicionário (é possível alterar)
+    # () => Tupla (somente leitura)
 
-    cursor.execute("SELECT id, nome FROM categorias")
+    for categoria in categorias:
+        id = categoria["id"]
 
-    registros = cursor.fetchall()
-
-    cursor.close()
-
-    conexao.close()
-
-    for registro in registros:
-        id = registro[0]
-
-        nome = registro[1]
+        nome = categoria["nome"]
 
         print("ID:", id, "\tNOME:", nome)
 
@@ -74,27 +40,7 @@ def editar_categorias():
 
     nome = input("Digite o novo nome: ")
 
-    conexao = connect(
-        user="root",
-        password="admin",
-        database="mercado",
-        host="127.0.0.1",
-        port="3306",
-    )
-
-    cursor = conexao.cursor()
-
-    sql = "UPDATE categorias SET nome= %s WHERE id = %s"
-
-    dados = (nome, id)
-
-    cursor.execute(sql, dados)
-
-    conexao.commit()
-
-    cursor.close()
-
-    conexao.close()
+    mercado_categoria_repositorio.editar(id, nome)
 
     print("Categoria alterada com sucesso")
 
@@ -104,38 +50,10 @@ def apagar_categorias():
 
     id = input("Digite o ID que deseja apagar: ")
 
-    print("Abrindo conexão com BD")
-    conexao = connect(
-        host="127.0.0.1",
-        port="3306",
-        user="root",
-        password="admin",
-        database="mercado",
-    )
+    linhas_afetadas = mercado_categoria_repositorio.apagar(id)
 
-    print("Conexão aberta com sucesso")
-    cursor = conexao.cursor()
-
-    print("Apagando categoria")
-
-    sql = "DELETE FROM categorias WHERE id = %s"
-
-    dados = (id,)
-
-    cursor.execute(sql, dados)
-
-    conexao.commit()
-
-    linhas_afetadas = cursor.rowcount
     if linhas_afetadas == 0:
         print("ID informado inexistente, tente novamente")
     else:
         print("Categoria apagada com sucesso")
-
-    cursor.close()
-
-    conexao.close()
-
-    print("Categoria apagada com sucesso")
-
 

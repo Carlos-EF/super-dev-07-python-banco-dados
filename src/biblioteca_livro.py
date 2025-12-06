@@ -1,10 +1,10 @@
-from mysql.connector import connect
+from src.repositorios import biblioteca_livro_repositorio
 
 def executar_biblioteca_livros():
     # cadastrar_livro()
     # editar_livro()
-    # apagar_livro()
-    listar_livros()
+    apagar_livro()
+    # listar_livros()
 
     # listar_mangas()
     # editar_manga()
@@ -25,27 +25,7 @@ def cadastrar_livro():
 
     descricao = input("Digite a descrição do livro: ")
 
-    conexao = connect(
-        user="root",
-        password="admin",
-        database="biblioteca",
-        host="127.0.0.1",
-        port="3306",
-    )
-
-    cursor = conexao.cursor()
-
-    sql = "INSERT INTO livros (titulo, quantidade_paginas, autor, preco, isbn, descricao) VALUE (%s, %s, %s, %s, %s, %s)"
-
-    dados = (titulo, quantidade_paginas, autor, preco, isbn, descricao)
-
-    cursor.execute(sql, dados)
-
-    conexao.commit()
-
-    cursor.close()
-
-    conexao.close()
+    biblioteca_livro_repositorio.cadastrar(titulo, quantidade_paginas, autor, preco, isbn, descricao)
 
     print(f"Livro {titulo} cadastrado com sucesso!")
 
@@ -67,29 +47,7 @@ def editar_livro():
 
     descricao = input("Digite uma breve descrição do livro: ")
 
-    conexao = connect(
-        password="admin",
-        user="root",
-        host="127.0.0.1",
-        port="3306",
-        database="biblioteca",
-    )
-
-    cursor = conexao.cursor()
-
-    sql = "UPDATE livros SET titulo= %s, quantidade_paginas= %s, autor= %s, preco= %s, isbn= %s, descricao= %s WHERE id = %s"
-
-    dados = (titulo, quantidade_paginas, autor, preco, isbn, descricao, id)
-
-    cursor.execute(sql, dados)
-
-    conexao.commit()
-
-    cursor.close()
-
-    conexao.close()
-
-    linhas_alteradas = cursor.rowcount
+    linhas_alteradas = biblioteca_livro_repositorio.editar(id, titulo, quantidade_paginas, autor, preco, isbn, descricao)
 
     if linhas_alteradas == 0:
         print("Ocorreu um erro ao tentar alterar o livro.")
@@ -102,72 +60,31 @@ def apagar_livro():
 
     id = input("Digite o ID que deseja apagar: ")
 
-    conexao = connect(
-        user="root",
-        password="admin",
-        port="3306",
-        host="127.0.0.1",
-        database="biblioteca",
-    )
+    linhas_apagadas = biblioteca_livro_repositorio.apagar(id)
 
-    cursor = conexao.cursor()
-
-    sql = "DELETE FROM livros WHERE id = %s"
-
-    dados = (id,)
-
-    cursor.execute(sql, dados)
-
-    conexao.commit()
-
-    conexao.close()
-
-    cursor.close()
-
-    linhas_afetadas = cursor.rowcount
-
-    if linhas_afetadas == 0:
+    if linhas_apagadas == 0:
         print("Ocorreu um erro ao tentar apagar o livro.")
-        return
     else:
         print("Livro apagado com sucesso!")
 
 
 def listar_livros():
-    conexao = connect(
-        user="root",
-        password="admin",
-        database="biblioteca",
-        host="127.0.0.1",
-        port="3306",
-    )
+    livros = biblioteca_livro_repositorio.obter_todos()
 
-    cursor = conexao.cursor()
+    for livro in livros:
+        id = livro["id"]
 
-    sql = "SELECT id, titulo, quantidade_paginas, autor, preco, isbn, descricao FROM livros"
+        titulo = livro["titulo"]
 
-    cursor.execute(sql)
+        quantidade_paginas = livro["quantidade_paginas"]
 
-    registros = cursor.fetchall()
+        autor = livro["autor"]
 
-    cursor.close()
+        preco = livro["preco"]
 
-    conexao.close()
+        isbn = livro["isbn"]
 
-    for registro in registros:
-        id = registro[0]
-
-        titulo = registro[1]
-
-        quantidade_paginas = registro[2]
-
-        autor = registro[3]
-
-        preco = registro[4]
-
-        isbn = registro[5]
-
-        descricao = registro[6]
+        descricao = livro["descricao"]
 
         print("ID:", id, "\tTITULO:", titulo, "\tPÁGINAS:", quantidade_paginas, "\tAUTOR:", autor, "\tPRECO:", preco, "\tISBN:", isbn, "\tDESCRIÇÂO:", descricao)
 

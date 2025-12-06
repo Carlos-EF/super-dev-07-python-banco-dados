@@ -78,3 +78,36 @@ def cadastrar_revista():
     print("Revista modificada com sucesso!")
 
 
+def apagar_revista():
+    listar_revistas()
+
+    id = input("Digite o ID da revista que deseja apagar: ")
+
+    conexao = connect(
+        user="root",
+        password="admin",
+        port="3306",
+        host="127.0.0.1",
+        database="biblioteca"
+    )
+
+    sql = "DELETE FROM revistas WHERE id= %s"
+
+    dados = (id, )
+
+    cursor = conexao.cursor()
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    linhas_apagadas = cursor.rowcount
+
+    cursor.close()
+
+    conexao.close()
+
+    if linhas_apagadas == 0:
+        print("Ocorreu um erro ao tentar apagar a revista.")
+    else:
+        print("Ocorreu um erro ao tentar apagar a revista.")
