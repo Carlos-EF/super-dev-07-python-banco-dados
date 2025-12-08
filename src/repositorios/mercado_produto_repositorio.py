@@ -23,8 +23,26 @@ def editar():
     pass
 
 
-def apagar():
-    pass
+def apagar(id: int) -> int:
+    conexao = conectar()
+
+    cursor = conexao.cursor()
+
+    sql = "DELETE FROM produtos WHERE id= %s"
+
+    dados = (id, )
+
+    cursor.execute(sql, dados)
+
+    conexao.commit()
+
+    linhas_afetadas = cursor.rowcount
+
+    cursor.close()
+
+    conexao.close()
+
+    return linhas_afetadas
 
 
 def obter_todos():
