@@ -3,7 +3,8 @@ from src.repositorios import mercado_produto_repositorio
 
 def executar_produtos():
     # cadastrar_produto()
-    apagar_produto()
+    # apagar_produto()
+    listar_produtos()
 
 
 def cadastrar_produto():
@@ -25,3 +26,17 @@ def apagar_produto():
         print("Produto apagagado com sucesso!")
     else:
         print("Não foi possível apagar o produto.")
+
+
+
+def listar_produtos():
+    produtos = mercado_produto_repositorio.obter_todos()
+
+    print("Código".ljust(8, " "), "Nome".ljust(20, " "), "Categoria")
+
+    for produto in produtos:
+        print(
+            str(produto["id"]).ljust(8, " "),
+            produto["nome"].ljust(20, " "),
+            produto["categoria"]["nome"]
+        )

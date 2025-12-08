@@ -46,4 +46,34 @@ def apagar(id: int) -> int:
 
 
 def obter_todos():
-    pass
+    conexao = conectar()
+
+    cursor = conexao.cursor()
+
+    sql = """SELECT
+    produtos.id,
+    produtos.nome,
+    categorias.id,
+    categorias.nome
+    FROM produtos INNER JOIN categorias ON (produtos.id_categoria = categorias.id)
+    """
+
+    cursor.execute(sql)
+
+    registros = cursor.fetchall()
+
+    produtos = []
+
+    for registro in registros:
+        produto = {
+            "id": registro[0],
+            "nome": registro[1],
+            "categoria": {
+                "id": registro[2],
+                "nome": registro[3],
+            }
+        }
+
+        produtos.append(produto)
+
+    return produtos
