@@ -18,6 +18,8 @@ ALTER TABLE livros ADD COLUMN preco DOUBLE;
 ALTER TABLE livros ADD COLUMN isbn VARCHAR(100);
 ALTER TABLE livros ADD COLUMN descricao TEXT;
 
+SELECT * FROM livros;
+
 SELECT id, titulo, quantidade_paginas, autor, preco, isbn, descricao FROM livros;
 
 CREATE TABLE mangas(
@@ -34,6 +36,7 @@ INSERT INTO mangas (nome, volume, autor, data_lancamento) VALUES ("Naruto", 52, 
 -- INSERT de teste para função de apagar
 INSERT INTO mangas (nome, volume, autor, data_lancamento) VALUE ("Teste", 1, "EU", "2025-12-05");
 
+SELECT * FROM mangas;
 
 CREATE TABLE revistas(
 	id INT PRIMARY KEY AUTO_INCREMENT,
@@ -47,4 +50,6 @@ INSERT INTO revistas (titulo, edicao, data_publicacao, editora) VALUES ("VEJA", 
 ("Superinteressante", 481, "2025-11-01", "Editora Abril");
 
 -- INSERT INTO de teste para editar revista
-INSERT INTO revistas (titulo, edicao, data_publicacao, editora) VALUE ("TEste", 100, "2025-12-05", "Minha Editora");	
+INSERT INTO revistas (titulo, edicao, data_publicacao, editora) VALUE ("TEste", 100, "2025-12-05", "Minha Editora");
+
+SELECT * FROM revistas;	
